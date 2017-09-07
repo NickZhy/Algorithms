@@ -2,7 +2,7 @@ class Solution {
 public:
     // Since we can't avoid the loss of information, 
     // inevitably we need a map to store the relation.
-    map<string, string> mp;
+    unordered_map<string, string> mp;
     // Designing a hash function is too complex.
     // Here I simply use a random string, and check
     // if there is any conflict.
@@ -38,4 +38,3 @@ public:
         return mp[shortUrl];
     }
 };
-
