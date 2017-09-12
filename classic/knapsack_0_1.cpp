@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <ctime>
 
 using namespace std;
 
@@ -27,14 +28,16 @@ int bag(vector<item> &items, int capacity) {
 }
 
 int main() {
+	srand(time(NULL));
+
 	vector<item> items;
-	for(int i = 0; i < 3; ++i) {
+	for(int i = 0; i < 10; ++i) {
 		int weight = rand() % 10 + 1;
 		int price = rand() % 10;
 		items.push_back(item(weight, price));
 		cout << "item: " << i << " weight: " << weight << " price: " << price << endl;
 	}
-	int capacity = 5; 
+	int capacity = rand() % 50; 
 	cout << "capacity: " << capacity << endl;
 	cout << "max price: " << bag(items, capacity) << endl;
 }
