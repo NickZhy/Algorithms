@@ -1,50 +1,36 @@
-#define INF numeric_limits<int>::max()
-#define -INF numeric_limits<int>::min()
 class Solution {
 public:
-    int arrMin(vector<int>& a, vector<int>& b, int p1, int p2) {
-        int m1 = p1 < a.size()? a[p1]: INF;
-        int m2 = p2 < b.size()? b[p2]: INF;
-        return min(m1, m2);
-    }
-    
-    int arrMax(vector<int>& a, vector<int>& b, int p1, int p2) {
-        int m1 = p1 >= 0? a[p1]: -INF;
-        int m2 = p2 >= 0? b[p2]: -INF;
-        return max(m1, m2);
-    }
-    
-    int check(vector<int>& nums1, vector<int>& nums2, int pos1, int pos2) {
-        if(pos2 < 0)
-            return 1;
-        if(pos2 > nums2.size())
-            return -1;
-        if(pos1 > 0 && pos2 < nums2.size() && nums1[pos1 - 1] > nums2[pos2])
-            return 1;
-        if(pos2 > 0 && pos1 < nums1.size() && nums2[pos2 - 1] > nums1[pos1])
-            return -1;
-        return 0;
-    }
-    
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        vector<int>& a = nums1.size() > nums2.size() ? nums1: nums2;
-        vector<int>& b = nums1.size() > nums2.size() ? nums2: nums1;
-        int len = a.size() + b.size();
-        int start = 0, end = a.size(), pos1, pos2;
-        while(start < end) {
-            pos1 = (start + end) / 2;
-            pos2 = len / 2 - pos1;
-            int t = check(a, b, pos1, pos2);
-            if(t == 0) break;
-            if(t == 1) end = pos1;
-            else start = pos1 + 1;
+        vector<int>& l = nums1.size() > nums2.size()? nums1: nums2;
+        vector<int>& s = nums1.size() > nums2.size()? nums2: nums1;
+        int len1 = l.size();
+        int len2 = s.size();
+        
+        int explen = (len1 + len2)/2;
+        int start = max(0, explen - len2), end = min(len1, explen);
+        int seg1, seg2;
+
+        while(start <= end) {
+            seg1 = start + (end - start) / 2;
+            seg2 = max(explen - seg1, 0);
+            
+            if(seg1 > 0 && seg2 < len2 && l[seg1 - 1] > s[seg2]) {
+                end = seg1 - 1;
+            } else if(seg2 > 0 && seg1 < len1 && s[seg2 - 1] > l[seg1]) {
+                start = seg1 + 1;
+            } else {
+                break;
+            }
         }
-        float rst = 0;
-        if(len % 2) {
-            rst = arrMin(a, b, pos1, pos2);
-        } else {
-            rst = (arrMax(a, b, pos1 - 1, pos2 - 1) + arrMin(a, b, pos1, pos2)) / 2.0;
-        }
-        return rst;
+
+        double min1 = seg1 > 0? l[seg1 - 1]: INT_MIN;
+        double min2 = seg2 > 0? s[seg2 - 1]: INT_MIN;
+        double max1 = seg1 < len1? l[seg1]: INT_MAX;
+        double max2 = seg2 < len2? s[seg2]: INT_MAX;
+        
+        if((len1 + len2) % 2 == 0)
+            return (max(min1, min2) + min(max1, max2)) / 2;
+        
+        return min(max1, max2);
     }
 };
