@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project( CV_ALG )
+find_package( OpenCV REQUIRED )
+file(GLOB CV_SRC "*.h" "*.hpp" "*.cpp")
+add_executable( CV_ALG ${CV_SRC} )
+target_link_libraries( CV_ALG ${OpenCV_LIBS} )
