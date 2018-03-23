@@ -15,13 +15,15 @@ class TreeNode {
 };
 
 TreeNode* buildTreeSub(Mat& im, int t, int l, int b, int r, double stddevThres) {
+  static int count = 0;
   if(t > b || l > r) return NULL;
   
   Scalar mean, stddev;
   Mat roi = im(Rect(Point(l, t), Point(r + 1, b + 1)));
   meanStdDev(roi, mean, stddev);
-
-  TreeNode* root = new TreeNode(t, l, b, r, round(mean[0]));
+  
+  int color = round(mean[0]);
+  TreeNode* root = new TreeNode(t, l, b, r, color);
   if(stddev[0] <= stddevThres) return root;
   
   int verMid = (t + b) / 2, horMid = (l + r) / 2;
@@ -66,7 +68,7 @@ int main() {
   Mat bgr[3];
   split(image, bgr);
 
-  double stddevThres = 5;
+  double stddevThres = 20;
   TreeNode* b = buildTree(bgr[0], stddevThres);
   TreeNode* g = buildTree(bgr[1], stddevThres);
   TreeNode* r = buildTree(bgr[2], stddevThres);
