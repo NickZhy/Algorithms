@@ -1,0 +1,12 @@
+# Write your MySQL query statement below
+select 
+    B.Id, B.Month, IFNULL(B.Salary, 0) + IFNULL(C.Salary, 0) + IFNULL(D.Salary, 0) as Salary
+from (
+    select Employee.Id, MAX(Employee.Month) as Month
+    from Employee
+    group by Employee.Id
+) as A 
+join Employee B on A.Id = B.Id and A.Month > B.Month
+left join Employee C on B.Id = C.Id and B.Month = C.Month + 1
+left join Employee D on C.Id = D.Id and C.Month = D.Month + 1
+order by B.Id asc, B.Month desc

@@ -1,0 +1,4 @@
+# Write your MySQL query statement below
+Select max(a.num) as num
+from number as a
+where (select count(*) from number as b where a.num = b.num) = 1

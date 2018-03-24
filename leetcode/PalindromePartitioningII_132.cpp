@@ -11,6 +11,13 @@ public:
                     } else
                         pd[i][j] = pd[i + 1][j - 1];
                 }
+        // for(int i = 0; i < len; ++i) {
+        //     for(int j = 0; j < i; ++j)
+        //         cout << "  ";
+        //     for(int j = i; j < len; ++j)
+        //         cout << pd[i][j] << " ";
+        //     cout << endl;
+        // }
         vector<int> dp(s.size() + 1, false);
         dp[0] = 0;
         for(int i = 1; i <= s.size() ; ++i) {

@@ -1,63 +1,61 @@
-typedef pair<int, int> pr;
 class Solution {
     class Node {
         public:
-        string* word;
-        unordered_map<char, Node*> child;
-        Node() {
-            word = NULL;
+        bool hasWord;
+        Node* father;
+        Node* child[26];
+        char ch;
+        Node(char c): ch(c), child(), father(), hasWord(false) {}
+        ~Node() {
+            for(int i = 0; i < 26; ++i) 
+                if(child[i]) delete child[i];
         }
     };
-    
-    static void insert(Node *root, string* s) {
-        for(char ch: *s) {
-            if(!root -> child.count(ch))
-                root -> child[ch] = new Node();
-            root = root -> child[ch];
+    static void addWord(Node* root, string& word) {
+        Node* curr = root;
+        for(char ch: word) {
+            int idx = ch - 'a';
+            if(!curr -> child[idx]) {
+                curr -> child[idx] = new Node(ch);
+                curr -> child[idx] -> father = curr;
+            }
+            curr = curr -> child[idx];
         }
-        root -> word = s;
+        curr -> hasWord = true;
     }
-    
 public:
-    int n,m;
-    unordered_set<string> rst;
-    
-    void find(vector<vector<char>>& board, int i, int j, Node* root, vector<vector<bool>> visited) {
-        if(i < 0 || i >=n || j < 0 || j >= m ) return;
-        if(!root -> child.count(board[i][j])) return;
-        if(visited[i][j]) return;
-        visited[i][j] = true;
-        
-        root = root -> child[board[i][j]];
-        if(root -> word)
-            rst.insert(*root -> word);
-        
-        find(board, i - 1, j, root, visited);
-        find(board, i, j - 1, root, visited);
-        find(board, i + 1, j, root, visited);
-        find(board, i, j + 1, root, visited);
-        visited[i][j] = false;
+    void dfs(Node* curr, int i, int j, vector<vector<char>>& board, unordered_set<Node*>& rst) {
+        if(i < 0 || j < 0 || i >= board.size() || j >= board[0].size()) return;
+        if(board[i][j] == ' ') return;
+        char ch = board[i][j];
+        curr = curr -> child[ch - 'a'];
+        if(!curr) return;
+        if(curr -> hasWord) rst.insert(curr);
+        board[i][j] = ' ';
+        dfs(curr, i + 1, j, board, rst);
+        dfs(curr, i, j + 1, board, rst);
+        dfs(curr, i - 1, j, board, rst);
+        dfs(curr, i, j - 1, board, rst);
+        board[i][j] = ch;
     }
-    
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        Node* root = new Node(' ');
+        for(string& wd: words) addWord(root, wd);
+        
+        unordered_set<Node*> rst;
+        for(int i = 0; i < board.size(); ++i)
+            for(int j = 0; j < board[0].size(); ++j)
+                dfs(root, i, j, board, rst);
         vector<string> result;
-        n = board.size();
-        if(!n) return result;
-        m = board[0].size();
-        if(!m) return result;
-        
-        Node* root = new Node();
-        for(int i = 0; i < words.size(); ++i)
-            insert(root, &words[i]);
-        
-        vector<vector<bool>> visited(n, vector<bool>(m, false));
-        
-        for(int i = 0; i < n; ++i)
-            for(int j = 0; j < m; ++j)
-                find(board, i, j, root, visited);
-        
-        for(string wd: rst) 
-            result.push_back(wd);
+        for(Node* n: rst) {
+            string tmp = "";
+            while(n -> father) {
+                tmp += n -> ch;
+                n = n -> father;
+            }
+            reverse(tmp.begin(), tmp.end());
+            result.push_back(tmp);
+        }
         return result;
     }
 };

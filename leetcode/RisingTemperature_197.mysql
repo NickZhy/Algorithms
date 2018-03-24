@@ -1,0 +1,4 @@
+# Write your MySQL query statement below
+Select W.Id
+From Weather as W Join Weather as W1 on W1.Date = Date_sub(W.Date, INTERVAL 1 Day)
+Where W.Temperature > W1.Temperature

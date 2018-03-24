@@ -1,15 +1,14 @@
 class Solution {
 public:
-	// if s[i] == s[j] then dp[i][j] = dp[i+1][j-1], here we optimize the space complexity to O(n).
     string longestPalindrome(string s) {
         int len = s.size();
         if (!len) return "";
         vector<bool> dp(len, false);
         int start = 0, end = 0;
         for(int i = len - 2; i >= 0; --i) {
-            for(int j = len - 1; j > i; --j) { // iterate reversely
+            for(int j = len - 1; j > i; --j) {
                 if(s[i] == s[j]){
-                    if(j <= i + 2){ // naive answers.
+                    if(j <= i + 2){
                         dp[j] = true;
                     } else {
                         dp[j] = dp[j - 1];

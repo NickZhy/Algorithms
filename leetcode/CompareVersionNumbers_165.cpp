@@ -1,28 +1,33 @@
 class Solution {
 public:
+    int readNumber(string& str, int& pos) {
+        while(pos < str.size() && str[pos] == '0') ++pos;
+        int rst = 0;
+        while(pos + rst < str.size() && str[pos + rst] != '.') ++rst;
+        return rst;
+    }
+    
     int compareVersion(string version1, string version2) {
-        int len1 = version1.size();
-        int len2 = version2.size();
-        
-        int start1 = 0, start2 = 0;
-        while(start1 < len1 && start2 < len2) {
-            int c1 = 0, c2 = 0;
-            while(start1 + c1 < len1 && version1[start1 + c1] != '.') ++c1;
-            while(start2 + c2 < len2 && version2[start2 + c2] != '.') ++c2;
-            int v1 = stoi(version1.substr(start1, c1));
-            int v2 = stoi(version2.substr(start2, c2));
-            if(v1 > v2) return 1;
-            if(v1 < v2) return -1;
-            start1 += c1 + 1;
-            start2 += c2 + 1;
+        int id1 = 0, id2 = 0;
+        int c1 = 0, c2 = 0;
+        while(id1 < version1.size() && id2 < version2.size()) {
+            int c1 = readNumber(version1, id1);
+            int c2 = readNumber(version2, id2);
+            if(c1 < c2) return -1;
+            if(c1 > c2) return  1;
+            int cmp = version1.substr(id1, c1).compare(version2.substr(id2, c2));
+            if(cmp > 0) return  1;
+            if(cmp < 0) return -1;
+            id1 += c1 + 1;
+            id2 += c2 + 1;
         }
-        while(start1 < len1) {
-            if(version1[start1] != '.' && version1[start1] != '0') return 1;
-            ++start1;
+        while(id1 < version1.size()) {
+            if(version1[id1] != '0' && version1[id1] != '.') return 1;
+            ++id1;
         }
-        while(start2 < len2) {
-            if(version2[start2] != '.' && version2[start2] != '0') return -1;
-            ++start2;
+        while(id2 < version2.size()) {
+            if(version2[id2] != '0' && version2[id2] != '.') return -1;
+            ++id2;
         }
         return 0;
     }

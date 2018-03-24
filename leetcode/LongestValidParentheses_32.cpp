@@ -1,9 +1,3 @@
-/*
- * The idea here is to remove matched parentheses from the
- * string, which leaves some "holes", and then find the 
- * biggest "hole".
- */
-
 typedef pair<int, bool> pr;
 class Solution {
 public:

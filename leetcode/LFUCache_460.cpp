@@ -93,7 +93,7 @@ public:
                 fnext = new FNode(f + 1);
                 insertNext(fn, fnext, ftail);
             }
-            // Move to the new freqency list. And remove old list if it's empty.
+            
             removeNode(vn, fn->tail);
             if(fn->tail == fn->head) {
                 removeNode(fn, ftail);
@@ -122,7 +122,6 @@ public:
         
         FNode* fn = (FNode*)flist->next;
         if(curr == max) {
-            // Remove one element from current set.
             VNode* t = (VNode*)fn -> tail;
             removeNode(t, fn -> tail);
             mp.erase(t->key);

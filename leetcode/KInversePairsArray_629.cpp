@@ -1,4 +1,3 @@
-// This solution has potential space optimization.
 class Solution {
 public:
     int kInversePairs(int n, int k) {

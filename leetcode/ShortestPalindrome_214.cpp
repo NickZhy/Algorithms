@@ -1,31 +1,3 @@
-// Violent search.
-class Solution {
-public:
-    bool isPalindrome(string &s, int end) {
-        int i = 0, j = end;
-        while(i < j) {
-            if(s[i] != s[j])
-                return false;
-            ++i;
-            --j;
-        }
-        return true;
-    }
-    string shortestPalindrome(string s) {
-        int end = s.size() - 1;
-        while(!isPalindrome(s, end)){
-            --end;
-        }
-        string prefix = "";
-        for(int i = end + 1; i<s.size(); ++i) {
-            prefix += s[i];
-        }
-        reverse(prefix.begin(), prefix.end());
-        return prefix + s;
-    }
-};
-
-// Convert the problem to: finding longest match suffix-prefix(not the whole string).
 class Solution {
 public:
     int KMPTable(string& str) {
@@ -54,5 +26,3 @@ public:
         return prefix + s;
     }
 };
-
-

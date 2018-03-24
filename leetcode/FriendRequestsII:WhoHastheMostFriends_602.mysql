@@ -1,0 +1,15 @@
+# Write your MySQL query statement below
+select a.id, a.num + ifnull(b.num, 0) as num
+from 
+(
+    select ra.requester_id as id, count(*) as num
+    from request_accepted as ra
+    group by ra.requester_id
+) as a left join
+(
+    select ra.accepter_id as id, count(*) as num
+    from request_accepted as ra
+    group by ra.accepter_id
+) as b on a.id = b.id
+order by num desc limit 1
+ 

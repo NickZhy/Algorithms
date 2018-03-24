@@ -1,0 +1,4 @@
+# Write your MySQL query statement below
+select Distinct(A.Num) as ConsecutiveNums
+from Logs as A, Logs as B, Logs as C
+where A.num = B.num and B.num = C.num and A.Id = B.Id - 1 and B.Id = C.Id - 1

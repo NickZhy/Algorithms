@@ -6,7 +6,6 @@ public:
             if(s[i++] != s[j--]) return false;
         return true;
     }
-	
     vector<vector<int>> palindromePairs(vector<string>& words) {
         vector<vector<int>> rst;
         map<string, vector<int>> wSet;

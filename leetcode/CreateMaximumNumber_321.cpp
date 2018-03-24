@@ -1,5 +1,11 @@
 class Solution {
 public:
+    /*dp[i][j][k] = dp[i-1][j-1][k],
+                    dp[i-1][j][k-1] concat nums1[i], 
+                    dp[i][j-1][k-1] concat nums2[j],
+            k*k*m*n
+    */
+    
     bool cmp(vector<int>& a, vector<int>& b) {
         int i = 0, j = 0;
         while(i < a.size() && a[i] == 0) ++i;

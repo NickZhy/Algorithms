@@ -6,16 +6,19 @@ public:
     }
     vector<int> dailyTemperatures(vector<int>& temperatures) {
         int len = temperatures.size();
-        vector<pr> stk;
+        vector<pr> hp;
         vector<int> rst(len, 0);
         for(int i = 0; i < len; ++i) {
-            while(stk.size() && stk.back().first < temperatures[i]) {
-                pr tmp = stk.back();
+            while(hp.size() && hp.front().first < temperatures[i]) {
+                pop_heap(hp.begin(), hp.end(), cmp);
+                pr tmp = hp.back();
                 rst[tmp.second] = i - tmp.second;
-                stk.pop_back();
+                hp.pop_back();
             }
-            stk.push_back(pr(temperatures[i], i));
+            hp.push_back(pr(temperatures[i], i));
+            push_heap(hp.begin(), hp.end(), cmp);
         }
         return rst;
     }
+
 };

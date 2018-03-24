@@ -1,0 +1,14 @@
+# Write your MySQL query statement below
+Select 
+round(
+    Ifnull(
+      (Select Count(*) 
+       From (Select distinct A.requester_id, A.accepter_id 
+             From request_accepted as A
+            ) as DA
+      ) /
+      (Select Count(*) 
+       From (Select distinct R.sender_id, R.send_to_id 
+             From friend_request as R
+            ) as DR
+      ), 0) , 2) as accept_rate

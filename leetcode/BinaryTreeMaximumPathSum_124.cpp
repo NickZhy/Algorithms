@@ -8,21 +8,18 @@
  * };
  */
 class Solution {
-    long maxVal = INT_MIN;
 public:
-    long maxLinkSum(TreeNode* root) {
-        long l = INT_MIN, r = INT_MIN;
-        long val = root -> val;
-        if(root -> left)
-            l = maxLinkSum(root -> left);
-        if(root -> right) 
-            r = maxLinkSum(root -> right);
-        long mPathSum = max(max(val + l + r, val), max(val + l, val + r));
-        maxVal = max(maxVal, mPathSum);
-        return max(val, max(l + val, r + val));
+    int maxSum = INT_MIN;
+    int maxSinglePathSum(TreeNode* root) {
+        if(!root) return 0;
+        int l = maxSinglePathSum(root -> left);
+        int r = maxSinglePathSum(root -> right);
+        maxSum = max(maxSum, max(l,  0) + max(r, 0) + root -> val);
+        return max(max(l, r) + root -> val, root -> val);
     }
+    
     int maxPathSum(TreeNode* root) {
-        maxLinkSum(root);
-        return maxVal;
+        maxSinglePathSum(root);
+        return maxSum;
     }
 };

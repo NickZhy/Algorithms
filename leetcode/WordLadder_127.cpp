@@ -1,33 +1,28 @@
 typedef pair<string, int> pr;
 class Solution {
 public:
-    bool isConn(string str1, string str2) {
-        int i = 0;
-        while(i < str1.size() && str1[i] == str2[i]) ++i;
-        if(i == str1.size()) return false;
-        return str1.substr(i + 1) == str2.substr(i + 1);
-    }
-    
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        queue<pr> qe;
-        unordered_set<string> unvisited;
-        for(string wd: wordList)
-            unvisited.insert(wd);
+        unordered_set<string> dict;
+        for(string& wd: wordList) dict.insert(wd);
+        if(!dict.count(endWord)) return 0;
         
-        qe.push(pr(beginWord, 1));
-        while(qe.size()) {
-            pr curr = qe.front();
-            qe.pop();
-            auto it = unvisited.begin();
-            while(it != unvisited.end()) {
-                string wd = *it;
-                if(!isConn(wd, curr.first)) {
-                    ++it;
-                } else {
-                    if(wd == endWord)
-                        return curr.second + 1;
-                    qe.push(pr(wd, curr.second + 1));
-                    it = unvisited.erase(it);
+        queue<pr> que;
+        que.push(pr(beginWord, 1));
+        dict.erase(beginWord);
+        while(que.size()) {
+            pr curr = que.front();
+            que.pop();
+            string& str = curr.first;
+            int& dep = curr.second;
+            for(int i = 0; i < str.size(); ++i) {
+                string tmp = str;
+                for(char j = 'a'; j <= 'z'; ++j) {
+                    tmp[i] = j;
+                    if(tmp == endWord) return dep + 1;
+                    if(dict.count(tmp)) {
+                        que.push(pr(tmp, dep + 1));
+                        dict.erase(tmp);
+                    }
                 }
             }
         }

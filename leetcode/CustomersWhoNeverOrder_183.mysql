@@ -1,0 +1,4 @@
+# Write your MySQL query statement below
+Select Customers.Name as Customers
+From Customers 
+Where Not Exists(Select * From Orders Where Customers.Id = Orders.CustomerId)

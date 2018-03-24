@@ -89,7 +89,7 @@ void findPattern(Node* root, const string& input) {
 
 int main() {
   vector<string> words = {"banana", "apple", "yellow", "wash", "water", "abababa", "application", "apply"};
-  string test = "abababababababbbbab";
+  string test = "abababc";
   Node* root = new Node("");
   for(string& wd: words)
     addStr(root, wd);
