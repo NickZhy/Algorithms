@@ -41,14 +41,9 @@ void buildFail(Node* root) {
       Node* tmp = curr -> fail;
       while(tmp && !tmp -> child[ch])
         tmp = tmp -> fail;
-      if(!tmp) {
-        c -> fail = root;
-      } else {
-        c -> fail = tmp -> child[ch];
-      }
+      c -> fail = tmp? tmp -> child[ch]: root;
     }
   }
-  root -> fail = root;
 }
 
 void traverse(Node* root) {

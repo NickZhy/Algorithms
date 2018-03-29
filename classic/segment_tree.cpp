@@ -9,7 +9,7 @@ class Node {
   int val;
   int lower, upper;
   Node* left, *right;
-  Node(int low, int up): lower(low), upper(up), val(0), left(), right() {}
+  Node(int low, int up): val(0), lower(low), upper(up), left(), right() {}
 };
 
 Node* buildTree(vector<int>& nums, int i, int j) {

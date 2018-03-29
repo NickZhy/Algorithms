@@ -8,7 +8,7 @@ class Node {
   int visitCount;
   Node* left;
   Node* right;
-  Node(int v): left(), right(), val(v), visitCount(0) {};
+  Node(int v): val(v), visitCount(0), left(), right() {};
   ~Node() {
     if(left) delete left;
     if(right) delete right;
