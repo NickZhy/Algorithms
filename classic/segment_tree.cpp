@@ -1,15 +1,33 @@
-#include <iostream>
 #include <vector>
+#include <iostream>
+#include "../visualize/visualize.hpp"
 using namespace std;
 
 //segment tree to solve range sum problem
 
-class Node {
+class Node: public BinTreeNode {
   public:
   int val;
   int lower, upper;
   Node* left, *right;
-  Node(int low, int up): val(0), lower(low), upper(up), left(), right() {}
+  Node(int low, int up) {
+    val = 0;
+    lower = low;
+    upper = up;
+    left = right = NULL;
+  }
+  BinTreeNode* lCh() {
+    return left;
+  }
+
+  BinTreeNode* rCh() {
+    return right;
+  }
+
+  string info() const {
+    return "{[" + to_string(lower) + "," + to_string(upper) + "]:" + to_string(val) + "}";
+  }
+
 };
 
 Node* buildTree(vector<int>& nums, int i, int j) {
@@ -51,6 +69,7 @@ void update(Node* root, int i, int val) {
 int main() {
   vector<int> nums = {1, 2, 3, 4, 5, 6, 7, 8};
   Node* root = buildTree(nums, 0, nums.size() - 1);
+  showBinTree(root);
   cout << "[0, 3] " << search(root, 0, 3) << ", [4, 5] " << search(root, 4, 5) << endl;
   update(root, 2, 9);
   cout << "[0, 3] " << search(root, 0, 3) << ", [4, 5] " << search(root, 4, 5) << endl;

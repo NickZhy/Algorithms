@@ -1,10 +1,11 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include "../visualize/visualize.hpp"
 using namespace std;
 
 // this version support range update, and is more suitable for questions related to intervals.
-class Node {
+class Node: public BinTreeNode {
   public:
     int left, right, val;
     bool sign;
@@ -17,6 +18,15 @@ class Node {
     ~Node() {
       if(l) delete l;
       if(r) delete r;
+    }
+    BinTreeNode* lCh() { 
+      return l;
+    }
+    BinTreeNode* rCh() { 
+      return r;
+    }
+    string info() const {
+      return "{[" + to_string(left) + "," + to_string(right) + "]:" + to_string(val) + "}";
     }
 };
 
@@ -57,7 +67,7 @@ int main () {
   vector<vector<int>> interval = {{1, 2, 5}, {3, 4, 2}, {7, 10, 4}, {1, 20, 3}};
   Node* root = new Node(0, 30);
   for(auto inv: interval) {
-    cout << "range: " << "(" << inv[0] << "," << inv[1] << ") val: " << query(root, inv[0], inv[1]) << endl;
+    showBinTree(root);
     update(root, inv[0], inv[1], inv[2]);
   }
   delete root;
