@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include "../visualize/color.hpp"
 #include "../visualize/visualize.hpp"
 using namespace std;
 

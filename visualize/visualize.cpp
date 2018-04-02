@@ -15,6 +15,14 @@ const char* LB = "\u23A0";
 const char* RB = "\u239D";
 const char* CS = "\u2534";
 
+//Default color, green :)
+Color BinTreeNode::color() {
+  return Color::GRN;
+}
+// Default style, bold :)
+Style BinTreeNode::style() {
+  return Style::BOLD;
+}
 
 void BinTreeNode::prepare(BinTreeNode* root) {
   if(!root) return;
@@ -52,7 +60,20 @@ void fillTo(string& buff, int& startPos, int endPos, const char* ch) {
   }
 }
 
-void showBinTree(BinTreeNode* root) {
+void addStyle(string& buf, Color color, Style style) {
+  int c = int(color);
+  int s = int(style);
+  if(c != 0)
+    buf += "\033[" + to_string(c) + "m";
+  if(s != 0)
+    buf += "\033[" + to_string(s) + "m";
+}
+
+void rmStyle(string& buf) {
+  buf += "\033[0m";
+}
+
+void showBinTree(BinTreeNode* root, Color color, Style style) {
   if(!root) return;
   BinTreeNode::prepare(root);
 
@@ -78,7 +99,9 @@ void showBinTree(BinTreeNode* root) {
     //draw the node
     int printPos = tp.offset + (curr -> width - info.size()) / 2;
     fillTo(buff1, pos1, printPos, " ");
+    addStyle(buff1, curr -> color(), curr -> style());
     buff1 += info;
+    rmStyle(buff1);
     pos1 += info.size();
 
     //draw the edge
@@ -92,23 +115,35 @@ void showBinTree(BinTreeNode* root) {
       int rPos = tp.offset + currWidth - 1 - rWidth / 2;
 
       fillTo(buff2, pos2, lPos, " ");
+      // draw double sided edge
+      addStyle(buff2, color, style);
       buff2 += LC;  ++pos2;
       fillTo(buff2, pos2, mPos, HB); 
       buff2 += CS;  ++pos2;
       fillTo(buff2, pos2, rPos, HB);  
       buff2 += RC;  ++pos2;
+      rmStyle(buff2);
 
       q.push(triplet(tp.offset, tp.level + 1, l));
       q.push(triplet(tp.offset + currWidth - rWidth, tp.level + 1, r));
     } else if(l) {
       int lWidth = l -> width;
       fillTo(buff2, pos2, mPos, " "); 
-      buff2 += LB;  ++pos2;
+      //draw left edge
+      addStyle(buff2, color, style);
+      buff2 += LB;  
+      rmStyle(buff2);
+      
+      ++pos2;
       q.push(triplet(tp.offset + (currWidth - lWidth + 1) / 2, tp.level + 1, l));
     } else {
       int rWidth = r -> width;
       fillTo(buff2, pos2, mPos, " "); 
-      buff2 += RB;  ++pos2;
+      //draw right edge
+      addStyle(buff2, color, style);
+      buff2 += RB;
+      rmStyle(buff2);
+      ++pos2;
       q.push(triplet(tp.offset + (currWidth - rWidth + 1) / 2, tp.level + 1, r));
     }
   }
