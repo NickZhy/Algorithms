@@ -15,7 +15,8 @@ const char* LB = "\u23A0";
 const char* RB = "\u239D";
 const char* CS = "\u2534";
 
-void prepare(BinTreeNode* root) {
+
+void BinTreeNode::prepare(BinTreeNode* root) {
   if(!root) return;
   BinTreeNode *l = root -> lCh(), *r = root -> rCh();
   prepare(l);
@@ -53,7 +54,7 @@ void fillTo(string& buff, int& startPos, int endPos, const char* ch) {
 
 void showBinTree(BinTreeNode* root) {
   if(!root) return;
-  prepare(root);
+  BinTreeNode::prepare(root);
 
   queue<triplet> q;
   q.push(triplet(START_POS, 0, root));

@@ -3,10 +3,10 @@
 
 class BinTreeNode {
   private:
-  int width;
-  friend void prepare(BinTreeNode*);
-  friend void showBinTree(BinTreeNode*);
+  int width; // used to compute the position of each node
+  static void prepare(BinTreeNode*);
   public:
+  friend void showBinTree(BinTreeNode*);
   virtual BinTreeNode* lCh() = 0;
   virtual BinTreeNode* rCh() = 0;
   virtual std::string info() const = 0;
