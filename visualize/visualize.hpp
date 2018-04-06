@@ -43,6 +43,7 @@ class BinTreeNode {
   virtual std::string info() const = 0;
   virtual Color color();
   virtual Style style();
+  virtual ~BinTreeNode();
 };
 
 #endif

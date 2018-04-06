@@ -1,11 +1,9 @@
 #include <iostream>
 #include <vector>
-#include <limits>
-#define INF numeric_limits<int>::max()
 
 using namespace std;
 
-vector<int> dfs(int start, int end, vector<vector<int> > graph) {
+vector<int> dfs(int start, int end, vector<vector<int> >& graph) {
 	int num = graph.size();
 	vector<bool> visit(num, false);
 	vector<int> path;
@@ -40,13 +38,13 @@ vector<vector<int> > maxFlow(int start, int end, vector<vector<int> >& graph) {
 		if(!path.size())
 			break;
 
-		int newFlow = INF;
+		int newFlow = INT_MAX;
 		for(int i = 0; i + 1 < path.size(); ++i) {
 			int a = path[i];
 			int b = path[i + 1];
 			newFlow = min(newFlow, residual[a][b]);
 		}
-		cout << endl;
+
 		for(int i = 0; i + 1 < path.size(); ++i) {
 			int a = path[i];
 			int b = path[i + 1];
