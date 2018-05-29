@@ -24,7 +24,7 @@ Style BinTreeNode::style() {
   return Style::BOLD;
 }
 
-BinTreeNode::prepare(BinTreeNode* root) {
+void BinTreeNode::prepare(BinTreeNode* root) {
   if(!root) return;
   BinTreeNode *l = root -> lCh(), *r = root -> rCh();
   prepare(l);
@@ -41,7 +41,7 @@ BinTreeNode::prepare(BinTreeNode* root) {
   }
 }
 
-void BinTreeNode::~BinTreeNode() {}
+BinTreeNode::~BinTreeNode() {}
 
 class triplet {
   public:
