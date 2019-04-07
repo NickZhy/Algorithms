@@ -42,7 +42,7 @@ void recoverSub(TreeNode* root, Mat& rst) {
   if(!root) return;
   if(!root -> leftTop) {
     Rect roi(Point(root -> left, root -> top), Point(root -> right + 1, root -> bottom + 1));
-    rectangle(rst, roi, Scalar(root -> avg), CV_FILLED);
+    rectangle(rst, roi, Scalar(root -> avg), FILLED);
     return;
   }
   recoverSub(root -> leftTop, rst);
@@ -61,7 +61,7 @@ Mat recover(TreeNode* root) {
 
 int main() {
   Mat image;
-  image = imread("pond.JPG", CV_LOAD_IMAGE_COLOR);
+  image = imread("pond.JPG");
   resize(image, image, Size(616, 408));
   imshow("origin", image);
 

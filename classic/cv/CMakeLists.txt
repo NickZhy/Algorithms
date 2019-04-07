@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
+set (CMAKE_CXX_STANDARD 11)
 project( CV_ALG )
 find_package( OpenCV REQUIRED )
 file(GLOB CV_SRC "*.h" "*.hpp" "*.cpp")
