@@ -29,7 +29,7 @@ Node* buildTree(int* a, int i, int j) {
 // in which 2 times are traversing and the other 2 times are searching 
 // for precessor.
 
-void mirrisTraversal(Node* root) {
+void morrisTraversal(Node* root) {
   Node* curr = root;
   while(curr) {
     ++curr -> visitCount;
@@ -70,7 +70,7 @@ int main() {
   int nums[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int len = *(&nums + 1) - nums;
   Node* root = buildTree(nums, 0, len - 1);
-  mirrisTraversal(root);
+  morrisTraversal(root);
   dfs(root);
   cout << endl;
   return 0;
